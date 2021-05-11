@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:valiu_challenge/src/bloc/provider.dart';
+import 'package:valiu_challenge/src/models/tag_model.dart';
 import 'package:valiu_challenge/src/widgets/bullet_icon.dart';
 
 class AmountListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final tagBloc = Provider.of(context);
+    tagBloc.loadTags();
+
     final _screenWdith = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -61,41 +66,7 @@ class AmountListPage extends StatelessWidget {
                   );
                 },
               )),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  height: 60.0,
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              BulletIcon(),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Text('20.000'),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              TextButton(onPressed: () {}, child: Text('Edit')),
-                              TextButton(
-                                  onPressed: () {}, child: Text('Delete'))
-                            ],
-                          ),
-                        )
-                      ]),
-                );
-              },
-              childCount: 14,
-            ),
-          ),
+          _sliverItems(tagBloc),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -112,5 +83,45 @@ class AmountListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _sliverItems(TagBloc tagBloc) {
+    return StreamBuilder(
+        stream: tagBloc.tagStream,
+        builder: (context, snapshot) {
+          return SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Container(
+                height: 60.0,
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            BulletIcon(),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Text(snapshot.data[index].title),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            TextButton(onPressed: () {}, child: Text('Edit')),
+                            TextButton(onPressed: () {}, child: Text('Delete'))
+                          ],
+                        ),
+                      )
+                    ]),
+              );
+            },
+            childCount: snapshot.hasData ? snapshot.data.length : 0,
+          ));
+        });
   }
 }
