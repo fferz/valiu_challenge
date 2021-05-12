@@ -27,6 +27,11 @@ class TagBloc {
     _loadingController.sink.add(false);
   }
 
+  // Create tag
+  void newTag(TagModel tag) async {
+    await _tagsProvider.newTag(tag);
+  }
+
   // Edit tag
   void editTag(TagModel tag) async {
     // start loading

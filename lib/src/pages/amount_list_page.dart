@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:valiu_challenge/src/bloc/provider.dart';
-import 'package:valiu_challenge/src/models/tag_model.dart';
 import 'package:valiu_challenge/src/widgets/bullet_icon.dart';
 
 class AmountListPage extends StatelessWidget {
@@ -12,77 +11,76 @@ class AmountListPage extends StatelessWidget {
     final _screenWdith = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-              floating: true,
-              pinned: true,
-              snap: true,
-              expandedHeight: 100,
-              elevation: 0,
-              flexibleSpace: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  final top = constraints.biggest.height;
-                  print('top: $top');
-                  return FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: (top < 110)
-                        ? Text(
-                            'Amount Tags',
-                            style: TextStyle(color: Colors.grey.shade800),
-                          )
-                        : null,
-                    background: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Amount',
-                                style: TextStyle(
-                                    color: Colors.grey.shade800,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 30),
-                              ),
-                              Text('tags',
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+                floating: true,
+                pinned: true,
+                snap: true,
+                expandedHeight: 100,
+                elevation: 0,
+                flexibleSpace: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    final top = constraints.biggest.height;
+                    print('top: $top');
+                    return FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: (top < 110)
+                          ? Text(
+                              'Amount Tags',
+                              style: TextStyle(color: Colors.grey.shade800),
+                            )
+                          : null,
+                      background: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Amount',
                                   style: TextStyle(
                                       color: Colors.grey.shade800,
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 30))
-                            ],
-                          ),
-                          Image(
-                            image: AssetImage('assets/valiu_logo.png'),
-                            width: _screenWdith * 0.4,
-                          )
-                        ],
+                                      fontSize: 30),
+                                ),
+                                Text('tags',
+                                    style: TextStyle(
+                                        color: Colors.grey.shade800,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 30))
+                              ],
+                            ),
+                            Image(
+                              image: AssetImage('assets/valiu_logo.png'),
+                              width: _screenWdith * 0.4,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    collapseMode: CollapseMode.parallax,
-                  );
-                },
-              )),
-          _sliverItems(tagBloc),
-        ],
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, 'new-amount');
-            },
-            child: Text('Create amount tag'),
-            style: ButtonStyle(),
-          ),
+                      collapseMode: CollapseMode.parallax,
+                    );
+                  },
+                )),
+            _sliverItems(tagBloc),
+          ],
         ),
-      ),
-    );
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'new-amount', arguments: tagBloc);
+              },
+              child: Text('Create amount tag'),
+              style: ButtonStyle(),
+            ),
+          ),
+        ));
   }
 
   Widget _sliverItems(TagBloc tagBloc) {

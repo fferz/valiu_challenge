@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 List<TagModel> tagModelFromJson(String str) =>
     List<TagModel>.from(json.decode(str).map((x) => TagModel.fromJson(x)));
 
@@ -32,6 +34,8 @@ class TagModel {
   DateTime createdAt;
   DateTime updatedAt;
 
+  TagModel.create({@required this.title, @required this.color});
+
   factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(
         id: json["_id"],
         title: json["title"],
@@ -40,10 +44,5 @@ class TagModel {
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "title": title,
-        "color": color,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() => {"title": title, "color": color};
 }

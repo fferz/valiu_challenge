@@ -12,11 +12,8 @@ class TagsProvider {
     final response = await http.get(url);
 
     final decodedData = json.decode(response.body);
-    print(decodedData);
-    print('decodedData[data]: ${decodedData['data']}');
 
     final tagsList = fromJsonList(decodedData['data']);
-    print('tags list: $tagsList');
 
     return tagsList;
   }
@@ -24,12 +21,15 @@ class TagsProvider {
   // Create new tag => POST /api/tags
   Future<TagModel> newTag(TagModel tag) async {
     final url = Uri.parse("$_url/tags");
-    final response = await http.post(url, body: tagModelToJson(tag));
+    final response = await http.post(url,
+        body: tagModelToJson(tag),
+        headers: {'Content-Type': 'application/json'});
 
     final decodedData = json.decode(response.body);
-    print(decodedData);
 
-    return decodedData;
+    final responseTag = TagModel.fromJson(decodedData['data']);
+
+    return responseTag;
   }
 
   // Edit tag => PUT /api/tags/:id
