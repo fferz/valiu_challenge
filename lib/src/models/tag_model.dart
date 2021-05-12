@@ -45,4 +45,17 @@ class TagModel {
       );
 
   Map<String, dynamic> toJson() => {"title": title, "color": color};
+
+  TagModel copyWith(
+          {String id,
+          String title,
+          String color,
+          DateTime createdAt,
+          DateTime updatedAt}) =>
+      TagModel(
+          id: id ?? this.id,
+          title: title ?? this.title,
+          color: color ?? this.color,
+          createdAt: createdAt ?? this.createdAt,
+          updatedAt: updatedAt ?? this.updatedAt);
 }

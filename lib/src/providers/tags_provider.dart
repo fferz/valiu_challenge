@@ -33,14 +33,17 @@ class TagsProvider {
   }
 
   // Edit tag => PUT /api/tags/:id
-  Future<TagModel> editTag(TagModel tag) async {
-    final url = Uri.parse("$_url/tags/:${tag.id}");
-    final response = await http.put(url, body: tagModelToJson(tag));
+  Future<String> editTag(TagModel tag) async {
+    print('tag updated provider: ${tag.title}');
+    final url = Uri.parse("$_url/tags/${tag.id}");
+    final response = await http.put(url,
+        body: tagModelToJson(tag),
+        headers: {'Content-Type': 'application/json'});
 
     final decodedData = json.decode(response.body);
     print(decodedData);
 
-    return decodedData;
+    return decodedData['message'];
   }
 
   // Delete tag => DELETE /api/:id

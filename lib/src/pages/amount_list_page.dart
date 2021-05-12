@@ -74,7 +74,7 @@ class AmountListPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, 'new-amount', arguments: tagBloc);
+                Navigator.pushNamed(context, 'new-amount');
               },
               child: Text('Create amount tag'),
               style: ButtonStyle(),
@@ -112,7 +112,10 @@ class AmountListPage extends StatelessWidget {
                           children: [
                             TextButton(
                               child: Text('Edit'),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'new-amount',
+                                    arguments: snapshot.data[index]);
+                              },
                             ),
                             TextButton(
                                 onPressed: () => {

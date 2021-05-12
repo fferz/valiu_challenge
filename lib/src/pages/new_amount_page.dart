@@ -13,6 +13,7 @@ class _NewAmountPageState extends State<NewAmountPage> {
   TextEditingController _controller;
   TagBloc tagBloc;
   TagModel _tag;
+  TagModel _tagArg;
   bool _saving = false;
 
   @override
@@ -30,8 +31,13 @@ class _NewAmountPageState extends State<NewAmountPage> {
 
   @override
   Widget build(BuildContext context) {
+    tagBloc = Provider.of(context);
     // args from tags list
-    tagBloc = ModalRoute.of(context).settings.arguments;
+    _tagArg = ModalRoute.of(context).settings.arguments;
+
+    if (_tagArg != null) {
+      _controller.text = _tagArg.title;
+    }
 
     final _screenWdith = MediaQuery.of(context).size.width;
 
@@ -81,7 +87,7 @@ class _NewAmountPageState extends State<NewAmountPage> {
 
   void _submit() async {
     final tagTitle = this._controller.text;
-    print('input: $tagTitle');
+
     if (this._controller.text == "0.00") {
       // show snackbar
       ScaffoldMessenger.of(context)
@@ -95,19 +101,37 @@ class _NewAmountPageState extends State<NewAmountPage> {
       this._saving = true;
     });
 
-    // save value in tag
-    this._tag =
-        new TagModel.create(title: this._controller.text, color: "#ff5733");
-    // save in DB
-    this.tagBloc.newTag(this._tag);
-    // get all tags
-    this.tagBloc.loadTags();
+    if (this._tagArg == null) {
+      // CREATE
 
-    // show snackbar
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Tag saved'),
-      duration: Duration(seconds: 3),
-    ));
+      // save value in tag
+      this._tag = new TagModel.create(title: tagTitle, color: "#ff5733");
+      // save in DB
+      this.tagBloc.newTag(this._tag);
+      // get all tags
+      this.tagBloc.loadTags();
+
+      // show snackbar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Tag saved'),
+        duration: Duration(seconds: 3),
+      ));
+    } else {
+      // EDIT
+
+      // update tag object
+      this._tagArg.title = tagTitle;
+      // save in DB
+      this.tagBloc.editTag(this._tagArg);
+      // get all tags
+      this.tagBloc.loadTags();
+
+      // show snackbar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Tag updated'),
+        duration: Duration(seconds: 3),
+      ));
+    }
 
     // stop saving
     setState(() {
