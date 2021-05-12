@@ -110,8 +110,17 @@ class AmountListPage extends StatelessWidget {
                       Container(
                         child: Row(
                           children: [
-                            TextButton(onPressed: () {}, child: Text('Edit')),
-                            TextButton(onPressed: () {}, child: Text('Delete'))
+                            TextButton(
+                              child: Text('Edit'),
+                              onPressed: () {},
+                            ),
+                            TextButton(
+                                onPressed: () => {
+                                      tagBloc
+                                          .deleteTag(snapshot.data[index].id),
+                                      tagBloc.loadTags()
+                                    },
+                                child: Text('Delete'))
                           ],
                         ),
                       )

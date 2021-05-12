@@ -46,6 +46,7 @@ class TagBloc {
 
   // Delete tag
   void deleteTag(String id) async {
+    print('tag deleted: $id');
     await _tagsProvider.deleteTag(id);
   }
 

@@ -44,13 +44,13 @@ class TagsProvider {
   }
 
   // Delete tag => DELETE /api/:id
-  Future<TagModel> deleteTag(String id) async {
-    final url = Uri.parse("$_url/tags/:$id");
+  Future<String> deleteTag(String id) async {
+    final url = Uri.parse("$_url/tags/$id");
     final response = await http.delete(url);
 
     final decodedData = json.decode(response.body);
     print(decodedData);
 
-    return decodedData;
+    return decodedData['message'];
   }
 }
