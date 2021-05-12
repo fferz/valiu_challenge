@@ -99,7 +99,7 @@ class AmountListPage extends StatelessWidget {
                       Container(
                         child: Row(
                           children: [
-                            BulletIcon(),
+                            BulletIcon(color: snapshot.data[index].color),
                             SizedBox(
                               width: 10.0,
                             ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:valiu_challenge/src/utils/bullet_colors.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class BulletIcon extends StatelessWidget {
-  BulletIcon();
+  final String color;
+
+  BulletIcon({@required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class BulletIcon extends StatelessWidget {
       height: 5.0,
       width: 5.0,
       decoration: new BoxDecoration(
-        color: getColor(),
+        color: HexColor(color),
         shape: BoxShape.circle,
       ),
     );

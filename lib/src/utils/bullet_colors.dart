@@ -1,6 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-int _index = 0;
+Random random = new Random();
 
 final _colors = <int, Color>{
   0: Colors.deepPurple,
@@ -10,8 +12,9 @@ final _colors = <int, Color>{
   4: Colors.blue,
 };
 
-Color getColor() {
-  Color _color = _colors[_index];
-  _index == 4 ? _index = 0 : _index += 1;
-  return _color;
+String setColor() {
+  int randomIndex = random.nextInt(_colors.length); // from 0 to 4 included
+  Color _color = _colors[randomIndex];
+
+  return '#${_color.value.toRadixString(16)}';
 }

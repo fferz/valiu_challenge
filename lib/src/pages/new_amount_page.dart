@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:valiu_challenge/src/bloc/provider.dart';
 import 'package:valiu_challenge/src/models/tag_model.dart';
+import 'package:valiu_challenge/src/utils/bullet_colors.dart' as utils;
 
 class NewAmountPage extends StatefulWidget {
   @override
@@ -105,7 +106,7 @@ class _NewAmountPageState extends State<NewAmountPage> {
       // CREATE
 
       // save value in tag
-      this._tag = new TagModel.create(title: tagTitle, color: "#ff5733");
+      this._tag = new TagModel.create(title: tagTitle, color: utils.setColor());
       // save in DB
       this.tagBloc.newTag(this._tag);
       // get all tags
