@@ -110,7 +110,7 @@ class _NewAmountPageState extends State<NewAmountPage> {
       // save in DB
       this.tagBloc.newTag(this._tag);
       // get all tags
-      this.tagBloc.loadTags();
+      //this.tagBloc.loadTags();
 
       // show snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -125,7 +125,7 @@ class _NewAmountPageState extends State<NewAmountPage> {
       // save in DB
       this.tagBloc.editTag(this._tagArg);
       // get all tags
-      this.tagBloc.loadTags();
+      //this.tagBloc.loadTags();
 
       // show snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

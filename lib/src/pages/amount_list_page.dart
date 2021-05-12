@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:valiu_challenge/src/bloc/provider.dart';
+import 'package:valiu_challenge/src/models/tag_model.dart';
 import 'package:valiu_challenge/src/widgets/bullet_icon.dart';
 
 class AmountListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tagBloc = Provider.of(context);
+    // get all tags
     tagBloc.loadTags();
+
+    final socketService = Provider.socketService(context);
+    socketService.socket.on('ADD_TAG', (payload) {
+      Map<String, dynamic> map = new Map<String, dynamic>.from(payload);
+      final socketTag = fromMapToList(map);
+      tagBloc.addTagToStream(socketTag);
+    });
 
     final _screenWdith = MediaQuery.of(context).size.width;
 
@@ -121,7 +130,7 @@ class AmountListPage extends StatelessWidget {
                                 onPressed: () => {
                                       tagBloc
                                           .deleteTag(snapshot.data[index].id),
-                                      tagBloc.loadTags()
+                                      //tagBloc.loadTags()
                                     },
                                 child: Text('Delete'))
                           ],

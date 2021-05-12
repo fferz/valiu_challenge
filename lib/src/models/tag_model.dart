@@ -19,6 +19,25 @@ List<TagModel> fromJsonList(List<dynamic> list) {
   return tags;
 }
 
+List<TagModel> fromMapToList(Map<String, dynamic> obj) {
+  List<TagModel> tags = [];
+  TagModel tag = new TagModel();
+
+  if (obj != null) {
+    tag.id = obj.containsKey('_id') ? obj['_id'] : 'no-id';
+    tag.title = obj.containsKey('title') ? obj['title'] : 'no-title';
+    tag.color = obj.containsKey('color') ? obj['color'] : '#FFFFFF';
+    tag.createdAt = obj.containsKey('created_at')
+        ? DateTime.parse(obj['created_at'])
+        : new DateTime.now();
+    tag.updatedAt = obj.containsKey('updated_at')
+        ? DateTime.parse(obj['updated_at'])
+        : new DateTime.now();
+  }
+  tags.add(tag);
+  return tags;
+}
+
 class TagModel {
   TagModel({
     this.id,

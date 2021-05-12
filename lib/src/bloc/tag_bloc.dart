@@ -8,9 +8,17 @@ class TagBloc {
 
   final _tagsProvider = new TagsProvider();
 
+  List<TagModel> allTags = [];
+
   //Stream definition
   Stream<List<TagModel>> get tagStream => _tagsController.stream;
+  Function(List<TagModel>) get tagSink => _tagsController.sink.add;
   Stream<bool> get loading => _loadingController.stream;
+
+  void addTagToStream(List<TagModel> list) {
+    allTags.insertAll(0, list);
+    _tagsController.sink.add(allTags);
+  }
 
   // Get all tags
   void loadTags() async {
@@ -18,9 +26,9 @@ class TagBloc {
     _loadingController.sink.add(true);
 
     // get tags
-    final tags = await _tagsProvider.getTags();
-    if (tags != null) {
-      _tagsController.sink.add(tags);
+    allTags = await _tagsProvider.getTags();
+    if (allTags != null) {
+      _tagsController.sink.add(allTags);
     }
 
     // stop loading
