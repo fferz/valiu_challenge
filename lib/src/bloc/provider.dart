@@ -9,17 +9,15 @@ class Provider extends InheritedWidget {
   final _tagBloc = new TagBloc();
   final _socketService = new SocketService();
 
-  // constructor del Provider
   factory Provider({Key key, Widget child}) {
-    // no hay instancia, creo una
+    // there is no instance => creates a new one
     if (_instancia == null) {
       return Provider._internal(key: key, child: child);
     }
-    // hay instancia, devuelvo la que existe
+    // returns existing instance
     return _instancia;
   }
 
-  // constructor interno
   Provider._internal({Key key, Widget child}) : super(key: key, child: child);
 
   @override
@@ -27,7 +25,6 @@ class Provider extends InheritedWidget {
     return true;
   }
 
-  // busca un provider en el arbol de widgets y de ahi saca el LoginBloc
   static TagBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>()._tagBloc;
   }

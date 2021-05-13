@@ -19,25 +19,6 @@ List<TagModel> fromJsonList(List<dynamic> list) {
   return tags;
 }
 
-List<TagModel> fromMapToList(Map<String, dynamic> obj) {
-  List<TagModel> tags = [];
-  TagModel tag = new TagModel();
-
-  if (obj != null) {
-    tag.id = obj.containsKey('_id') ? obj['_id'] : 'no-id';
-    tag.title = obj.containsKey('title') ? obj['title'] : 'no-title';
-    tag.color = obj.containsKey('color') ? obj['color'] : '#FFFFFF';
-    tag.createdAt = obj.containsKey('created_at')
-        ? DateTime.parse(obj['created_at'])
-        : new DateTime.now();
-    tag.updatedAt = obj.containsKey('updated_at')
-        ? DateTime.parse(obj['updated_at'])
-        : new DateTime.now();
-  }
-  tags.add(tag);
-  return tags;
-}
-
 class TagModel {
   TagModel({
     this.id,
@@ -63,18 +44,17 @@ class TagModel {
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
-  Map<String, dynamic> toJson() => {"title": title, "color": color};
+  factory TagModel.fromMap(Map<String, dynamic> obj) => TagModel(
+        id: obj.containsKey('_id') ? obj['_id'] : 'no-id',
+        title: obj.containsKey('title') ? obj['title'] : 'no-title',
+        color: obj.containsKey('color') ? obj['color'] : '#FFFFFF',
+        createdAt: obj.containsKey('created_at')
+            ? DateTime.parse(obj['created_at'])
+            : new DateTime.now(),
+        updatedAt: obj.containsKey('updated_at')
+            ? DateTime.parse(obj['updated_at'])
+            : new DateTime.now(),
+      );
 
-  TagModel copyWith(
-          {String id,
-          String title,
-          String color,
-          DateTime createdAt,
-          DateTime updatedAt}) =>
-      TagModel(
-          id: id ?? this.id,
-          title: title ?? this.title,
-          color: color ?? this.color,
-          createdAt: createdAt ?? this.createdAt,
-          updatedAt: updatedAt ?? this.updatedAt);
+  Map<String, dynamic> toJson() => {"title": title, "color": color};
 }

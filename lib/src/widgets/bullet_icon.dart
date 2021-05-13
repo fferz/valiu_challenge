@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// Creates bullet icon
 class BulletIcon extends StatelessWidget {
   final String color;
 

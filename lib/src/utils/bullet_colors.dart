@@ -12,6 +12,7 @@ final _colors = <int, Color>{
   4: Colors.blue,
 };
 
+// returns random color from _colors
 String setColor() {
   int randomIndex = random.nextInt(_colors.length); // from 0 to 4 included
   Color _color = _colors[randomIndex];

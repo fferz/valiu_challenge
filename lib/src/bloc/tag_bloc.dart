@@ -4,55 +4,59 @@ import 'package:valiu_challenge/src/providers/tags_provider.dart';
 
 class TagBloc {
   final _tagsController = new BehaviorSubject<List<TagModel>>();
-  final _loadingController = new BehaviorSubject<bool>();
-
   final _tagsProvider = new TagsProvider();
-
   List<TagModel> allTags = [];
 
-  //Stream definition
+  //Stream
   Stream<List<TagModel>> get tagStream => _tagsController.stream;
-  Function(List<TagModel>) get tagSink => _tagsController.sink.add;
-  Stream<bool> get loading => _loadingController.stream;
 
-  void addTagToStream(List<TagModel> list) {
-    allTags.insertAll(0, list);
+  // socket - add created tag to stream
+  void addTagToStream(TagModel tag) {
+    allTags.insert(0, tag);
     _tagsController.sink.add(allTags);
   }
 
-  // Get all tags
-  void loadTags() async {
-    // start loading
-    _loadingController.sink.add(true);
+  // socket - update edited tag in stream
+  void editTagInStream(TagModel tag) {
+    int index;
 
+    for (var i = 0; i < allTags.length; i++) {
+      if (allTags[i].id == tag.id) {
+        index = i;
+        print('index: $index');
+      }
+    }
+    allTags.replaceRange(index, index + 1, [tag]);
+    _tagsController.sink.add(allTags);
+  }
+
+  // socket - delete tag from stream
+  void removeTagFromStream(String id) {
+    allTags.removeWhere((t) => t.id == id);
+    _tagsController.sink.add(allTags);
+  }
+
+  // db - Get all tags
+  void loadTags() async {
     // get tags
     allTags = await _tagsProvider.getTags();
     if (allTags != null) {
       _tagsController.sink.add(allTags);
     }
-
-    // stop loading
-    _loadingController.sink.add(false);
   }
 
-  // Create tag
+  // db - Create tag
   void newTag(TagModel tag) async {
     await _tagsProvider.newTag(tag);
   }
 
-  // Edit tag
+  // db - Edit tag
   void editTag(TagModel tag) async {
-    // start loading
-    _loadingController.sink.add(true);
-
     // edit tag
     await _tagsProvider.editTag(tag);
-
-    // stop loading
-    _loadingController.sink.add(false);
   }
 
-  // Delete tag
+  // db - Delete tag
   void deleteTag(String id) async {
     print('tag deleted: $id');
     await _tagsProvider.deleteTag(id);
@@ -60,6 +64,5 @@ class TagBloc {
 
   dispose() {
     _tagsController?.close();
-    _loadingController?.close();
   }
 }
