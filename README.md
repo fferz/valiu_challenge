@@ -1,4 +1,4 @@
-# valiu_challenge
+# Valiu challenge
 
 This app was created for the Valiu Challenge.
 In this app, the user can find a list of amount tags (in the home page), and she can also create a new tag, edit tags or delete them.
